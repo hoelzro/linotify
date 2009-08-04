@@ -97,7 +97,7 @@ static int handle_read(lua_State *L)
         lua_setfield(L, -2, "cookie");
 
         if(iev->len) {
-            lua_pushlstring(L, iev->name, iev->len - 1);
+            lua_pushstring(L, iev->name);
             lua_setfield(L, -2, "name");
         }
 
