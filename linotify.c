@@ -64,6 +64,12 @@ static int init(lua_State *L)
     }
 }
 
+static int handle_fileno(lua_State *L)
+{
+    lua_pushinteger(L, get_inotify_handle(L, 1));
+    return 1;
+}
+
 static int handle_read(lua_State *L)
 {
     int fd;
@@ -171,6 +177,7 @@ static luaL_reg handle_funcs[] = {
     {"close", handle_close},
     {"addwatch", handle_add_watch},
     {"rmwatch", handle_rm_watch},
+    {"fileno", handle_fileno},
     {NULL, NULL}
 };
 
