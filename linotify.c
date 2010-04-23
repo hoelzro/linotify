@@ -83,10 +83,9 @@ static int handle_read(lua_State *L)
     if((bytes = read(fd, buffer, 1024)) < 0) {
         return handle_error(L);
     }
-
     lua_newtable(L);
 
-    while(bytes > sizeof(struct inotify_event)) {
+    while(bytes >= sizeof(struct inotify_event)) {
         iev = (struct inotify_event *) (buffer + i);
 
         lua_createtable(L, 0, 4);
