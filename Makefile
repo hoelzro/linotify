@@ -7,9 +7,8 @@ LIBNAME = inotify.so
 # out this line when debugging.
 OMIT_FRAME_POINTER = -fomit-frame-pointer
 
-# Name of .pc file. "lua5.1" on Debian/Ubuntu
-LUAPKG = lua5.1
-CFLAGS = `pkg-config $(LUAPKG) --cflags` -fPIC -O3 -Wall
+# Seach for lua .pc file
+CFLAGS = `sh -c "pkg-config \`pkg-config --list-all | grep Lua | awk '{print $$1}'\` --cflags"` -fPIC -O3 -Wall
 LFLAGS = -shared $(OMIT_FRAME_POINTER)
 INSTALL_PATH = `pkg-config $(LUAPKG) --variable=INSTALL_CMOD`
 
