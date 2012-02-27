@@ -25,6 +25,7 @@
 
 #include <sys/inotify.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -75,6 +76,10 @@ static int init(lua_State *L)
     if((fd = inotify_init()) == -1) {
         return handle_error(L);
     } else {
+        if (lua_toboolean(L, 1)) {
+            fcntl(fd, F_SETFL, O_NONBLOCK);
+        }
+
         push_inotify_handle(L, fd);
         return 1;
     }
