@@ -166,12 +166,12 @@ static int handle__gc(lua_State *L)
     return handle_close(L);
 }
 
-static luaL_reg inotify_funcs[] = {
+static luaL_Reg inotify_funcs[] = {
     {"init", init},
     {NULL, NULL}
 };
 
-static luaL_reg handle_funcs[] = {
+static luaL_Reg handle_funcs[] = {
     {"read", handle_read},
     {"close", handle_close},
     {"addwatch", handle_add_watch},
@@ -187,14 +187,23 @@ static luaL_reg handle_funcs[] = {
 int luaopen_inotify(lua_State *L)
 {
     luaL_newmetatable(L, MT_NAME);
-    lua_createtable(L, 0, sizeof(handle_funcs) / sizeof(luaL_reg) - 1);
+    lua_createtable(L, 0, sizeof(handle_funcs) / sizeof(luaL_Reg) - 1);
+#if LUA_VERSION_NUM > 501
+    luaL_setfuncs(L, handle_funcs, 0);
+#else
     luaL_register(L, NULL, handle_funcs);
+#endif
     lua_setfield(L, -2, "__index");
     lua_pushcfunction(L, handle__gc);
     lua_setfield(L, -2, "__gc");
     lua_pop(L, 1);
 
+#if LUA_VERSION_NUM > 501
+    lua_newtable(L);
+    luaL_setfuncs(L, inotify_funcs,0);
+#else
     luaL_register(L, INOTIFY_LIB_NAME, inotify_funcs);
+#endif
 
     register_constant(IN_ACCESS);
     register_constant(IN_ATTRIB);
