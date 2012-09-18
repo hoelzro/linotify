@@ -1,12 +1,12 @@
 package = "inotify"
-version = "1.0-0"
+version = "0.1-1"
 source = {
-	url = "git://github.com/hoelzro/linotify.git"
+	url = 'https://github.com/downloads/hoelzro/linotify/linotify-0.1.tar.gz'
 }
 description = {
-	summary = "Inotify bindings for Lua",
+	summary  = "Inotify bindings for Lua",
 	homepage = "http://hoelz.ro/projects/linotify",
-	license = "MIT"
+	license  = "MIT"
 }
 dependencies = {
 	"lua >= 5.1"
