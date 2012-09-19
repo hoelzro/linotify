@@ -22,7 +22,7 @@ Inotify handles have a variety of methods:
 ### handle:read()
 
 Reads events from the handle, returning a table.  Each element of the table
-is itself a table, with the members of the inotify_event struct as its
+is itself a table, with the members of the `inotify_event` struct as its
 keys and values (except for len).  If an error occurs, `nil`, the error
 message, and errno are returned.
 
@@ -33,12 +33,12 @@ collection.
 
 ### handle:addwatch(path, [event_masks...])
 
-Adds a watch on event_masks for the file located at path, returning a
-watch identifier on success, and the traditional nil, error, errno triplet
-on error.  event_masks is a variadic sequence of integer constants, taken
-from inotify.IN_*.
+Adds a watch on `event_masks` for the file located at path, returning a
+watch identifier on success, and the traditional `nil, error, errno` triplet
+on error.  `event_masks` is a variadic sequence of integer constants, taken
+from `inotify.IN_*`.
 
-All of the values in event_masks are OR'd together but this can also be done
+All of the values in `event_masks` are OR'd together but this can also be done
 manually with `bit.bor()`. The following two examples are equivalent:
 
     -- Event masks passed as arguments
