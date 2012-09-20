@@ -41,6 +41,7 @@ from `inotify.IN_*`.
 All of the values in `event_masks` are OR'd together but this can also be done
 manually with `bit.bor()`. The following two examples are equivalent:
 
+```lua
     -- Event masks passed as arguments
     local handle = inotify.init()
     local wd = handle:addwatch('/tmp/foo/', inotify.IN_CREATE, inotify.IN_MOVE)
@@ -49,6 +50,7 @@ manually with `bit.bor()`. The following two examples are equivalent:
     local handle = inotify.init()
     local options = bit.bor(inotify.IN_CREATE, inotify.IN_MOVE)
     local wd = handle:addwatch('/tmp/foo/', options)
+```
 
 ### handle:rmwatch(watchid)
 
@@ -58,6 +60,7 @@ inotify handle.  Returns true on success, and `nil, error, errno` on error.
 Example
 -------
 
+```lua
     local inotify = require 'inotify'
     local handle = inotify.init()
 
@@ -74,3 +77,4 @@ Example
     handle:rmwatch(wd)
 
     handle:close()
+```
