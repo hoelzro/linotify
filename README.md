@@ -42,14 +42,14 @@ All of the values in `event_masks` are OR'd together but this can also be done
 manually with `bit.bor()`. The following two examples are equivalent:
 
 ```lua
-    -- Event masks passed as arguments
-    local handle = inotify.init()
-    local wd = handle:addwatch('/tmp/foo/', inotify.IN_CREATE, inotify.IN_MOVE)
+-- Event masks passed as arguments
+local handle = inotify.init()
+local wd = handle:addwatch('/tmp/foo/', inotify.IN_CREATE, inotify.IN_MOVE)
 
-    -- Event masks passed as a single, manually OR'd variable
-    local handle = inotify.init()
-    local options = bit.bor(inotify.IN_CREATE, inotify.IN_MOVE)
-    local wd = handle:addwatch('/tmp/foo/', options)
+-- Event masks passed as a single, manually OR'd variable
+local handle = inotify.init()
+local options = bit.bor(inotify.IN_CREATE, inotify.IN_MOVE)
+local wd = handle:addwatch('/tmp/foo/', options)
 ```
 
 ### handle:rmwatch(watchid)
@@ -61,20 +61,20 @@ Example
 -------
 
 ```lua
-    local inotify = require 'inotify'
-    local handle = inotify.init()
+local inotify = require 'inotify'
+local handle = inotify.init()
 
-    -- Watch for new files and renames
-    local wd = handle:addwatch('/home/rob/', inotify.IN_CREATE, inotify.IN_MOVE)
+-- Watch for new files and renames
+local wd = handle:addwatch('/home/rob/', inotify.IN_CREATE, inotify.IN_MOVE)
 
-    local events = handle:read()
+local events = handle:read()
 
-    for _, ev in ipairs(events) do
-        print(ev.name .. ' was created or renamed')
-    end
+for _, ev in ipairs(events) do
+    print(ev.name .. ' was created or renamed')
+end
 
-    -- Done automatically on close, I think, but kept to be thorough
-    handle:rmwatch(wd)
+-- Done automatically on close, I think, but kept to be thorough
+handle:rmwatch(wd)
 
-    handle:close()
+handle:close()
 ```
