@@ -26,6 +26,10 @@ is itself a table, with the members of the `inotify_event` struct as its
 keys and values (except for len).  If an error occurs, `nil`, the error
 message, and errno are returned.
 
+### handle:poll()
+
+Determines if the event handle is ready. Return 1 if handle is ready and has new events, 0 if not ready and -1 on error.
+
 ### handle:close()
 
 Closes the inotify event handle.  This is done automatically on garbage
