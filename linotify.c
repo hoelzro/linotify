@@ -27,6 +27,7 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #define INOTIFY_LIB_NAME "inotify"
 #define MT_NAME "INOTIFY_HANDLE"
@@ -115,6 +116,12 @@ static int handle_read(lua_State *L)
     return 1;
 }
 
+static int handle_getfd(lua_State *L)
+{
+    lua_pushnumber(L, get_inotify_handle(L, 1));
+    return 1;
+}
+
 static int handle_close(lua_State *L)
 {
     int fd = get_inotify_handle(L, 1);
@@ -173,6 +180,7 @@ static luaL_Reg inotify_funcs[] = {
 
 static luaL_Reg handle_funcs[] = {
     {"read", handle_read},
+    {"getfd", handle_getfd},
     {"close", handle_close},
     {"addwatch", handle_add_watch},
     {"rmwatch", handle_rm_watch},
