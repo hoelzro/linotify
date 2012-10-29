@@ -24,7 +24,6 @@
 #include <lauxlib.h>
 
 #include <sys/inotify.h>
-#include <poll.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -117,16 +116,9 @@ static int handle_read(lua_State *L)
     return 1;
 }
 
-static int handle_poll(lua_State *L)
+static int handle_getfd(lua_State *L)
 {
-    struct pollfd *fds;
-
-    fds = malloc(sizeof(*fds));
-    fds[0].events = POLLIN;
-    fds[0].fd = get_inotify_handle(L, 1);
-
-    lua_pushinteger(L, poll(fds, 1, 0));
-    free(fds);
+    lua_pushnumber(L, get_inotify_handle(L, 1));
     return 1;
 }
 
@@ -188,7 +180,7 @@ static luaL_Reg inotify_funcs[] = {
 
 static luaL_Reg handle_funcs[] = {
     {"read", handle_read},
-    {"poll", handle_poll},
+    {"getfd", handle_getfd},
     {"close", handle_close},
     {"addwatch", handle_add_watch},
     {"rmwatch", handle_rm_watch},
