@@ -10,9 +10,9 @@ To build `inotify.so`, simply type `make`.
 Usage
 -----
 
-All of the constants are contained in the global `inotify` table.
-Constants are named after their counterparts in the C header file
-(for example: `inotify.IN_ACCESS`).
+All of the constants are contained in the `inotify` table returned by
+require.  Constants are named after their counterparts in the C header
+file (for example: `inotify.IN_ACCESS`).
 
 The only function to be found in the inotify table is `init`, which
 takes no arguments and returns an inotify handle.
@@ -78,3 +78,11 @@ handle:rmwatch(wd)
 
 handle:close()
 ```
+
+Deprecation Warning
+-------------------
+
+As version 0.2, relying on the global `inotify` (as opposed to using the
+return value of `require`) is deprecated.  Doing this will result in
+a warning.  If you do not wish to see this warning, simply downgrade to
+linotify 0.1 (the versions are identical except for this warning).
