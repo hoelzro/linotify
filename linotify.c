@@ -39,6 +39,13 @@
 #define LINOTIFY_01_COMPAT 1
 
 #define MT_NAME "INOTIFY_HANDLE"
+#define READ_BUFFER_SIZE 1024
+
+struct inotify_context {
+    char buffer[READ_BUFFER_SIZE];
+    int offset;
+    int bytes_remaining;
+};
 
 void push_inotify_handle(lua_State *L, int fd)
 {
@@ -127,6 +134,48 @@ static int handle_read(lua_State *L)
     return 1;
 }
 
+static int
+handle_events_iterator(lua_State *L)
+{
+    struct inotify_context *context;
+    struct inotify_event *event;
+    int fd;
+
+    fd      = get_inotify_handle(L, 1);
+    context = lua_touserdata(L, lua_upvalueindex(1));
+
+    if(context->bytes_remaining < sizeof(struct inotify_event)) {
+        context->offset = 0;
+
+        if((context->bytes_remaining = read(fd, context->buffer, READ_BUFFER_SIZE)) < 0) {
+            return luaL_error(L, "read error: %s\n", strerror(errno));
+        }
+    }
+    event = (struct inotify_event *) (context->buffer + context->offset);
+
+    context->bytes_remaining -= (sizeof(struct inotify_event) + event->len);
+    context->offset          += (sizeof(struct inotify_event) + event->len);
+
+    push_inotify_event(L, event);
+
+    return 1;
+}
+
+static int
+handle_events(lua_State *L)
+{
+    struct inotify_context *context;
+
+    context = lua_newuserdata(L, sizeof(struct inotify_context));
+
+    memset(context, 0, sizeof(struct inotify_context));
+
+    lua_pushcclosure(L, handle_events_iterator, 1);
+    lua_pushvalue(L, 1);
+
+    return 2;
+}
+
 static int handle_close(lua_State *L)
 {
     int fd = get_inotify_handle(L, 1);
@@ -189,6 +238,7 @@ static luaL_Reg handle_funcs[] = {
     {"addwatch", handle_add_watch},
     {"rmwatch", handle_rm_watch},
     {"fileno", handle_fileno},
+    {"events", handle_events},
     {NULL, NULL}
 };
 
