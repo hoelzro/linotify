@@ -79,6 +79,26 @@ static int handle_fileno(lua_State *L)
     return 1;
 }
 
+static void
+push_inotify_event(lua_State *L, struct inotify_event *ev)
+{
+    lua_createtable(L, 0, 4);
+
+    lua_pushinteger(L, ev->wd);
+    lua_setfield(L, -2, "wd");
+
+    lua_pushinteger(L, ev->mask);
+    lua_setfield(L, -2, "mask");
+
+    lua_pushinteger(L, ev->cookie);
+    lua_setfield(L, -2, "cookie");
+
+    if(ev->len) {
+        lua_pushstring(L, ev->name);
+        lua_setfield(L, -2, "name");
+    }
+}
+
 static int handle_read(lua_State *L)
 {
     int fd;
@@ -97,25 +117,8 @@ static int handle_read(lua_State *L)
     while(bytes >= sizeof(struct inotify_event)) {
         iev = (struct inotify_event *) (buffer + i);
 
-        lua_createtable(L, 0, 4);
-        lua_pushvalue(L, -1);
-        lua_rawseti(L, -3, n++);
-
-        lua_pushinteger(L, iev->wd);
-        lua_setfield(L, -2, "wd");
-
-        lua_pushinteger(L, iev->mask);
-        lua_setfield(L, -2, "mask");
-
-        lua_pushinteger(L, iev->cookie);
-        lua_setfield(L, -2, "cookie");
-
-        if(iev->len) {
-            lua_pushstring(L, iev->name);
-            lua_setfield(L, -2, "name");
-        }
-
-        lua_pop(L, 1);
+        push_inotify_event(L, iev);
+        lua_rawseti(L, -2, n++);
 
         i += (sizeof(struct inotify_event) + iev->len);
         bytes -= (sizeof(struct inotify_event) + iev->len);
