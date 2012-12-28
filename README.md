@@ -26,6 +26,13 @@ is itself a table, with the members of the `inotify_event` struct as its
 keys and values (except for len).  If an error occurs, `nil`, the error
 message, and errno are returned.
 
+### handle:events()
+
+Returns an iterator that reads events from the handle, one at a time.
+Each value yielded from the iterator is a table with the members of the
+`inotify_event` struct as its keys and values (except for len).  If an
+error occurs during reading, an error is thrown.
+
 ### handle:close()
 
 Closes the inotify event handle.  This is done automatically on garbage
@@ -70,6 +77,26 @@ local wd = handle:addwatch('/home/rob/', inotify.IN_CREATE, inotify.IN_MOVE)
 local events = handle:read()
 
 for _, ev in ipairs(events) do
+    print(ev.name .. ' was created or renamed')
+end
+
+-- Done automatically on close, I think, but kept to be thorough
+handle:rmwatch(wd)
+
+handle:close()
+```
+
+Example (Iterator)
+------------------
+
+```lua
+local inotify = require 'inotify'
+local handle = inotify.init()
+
+-- Watch for new files and renames
+local wd = handle:addwatch('/home/rob/', inotify.IN_CREATE, inotify.IN_MOVE)
+
+for ev in handle:events()
     print(ev.name .. ' was created or renamed')
 end
 
