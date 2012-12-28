@@ -1,2 +1,11 @@
+0.2    2012 Dec 28
+       - Issue a deprecation warning when using
+         _G.inotify.  Make sure you use the return
+         value of require 'inotify' for your library
+         calls!
+       - Documentation improvements (thanks to Craig Barnes)
+       - Add iterator interface to inotify handles
+       - Add __type metafield for typical and other type libraries.
+
 0.1    2012 Sep 18
        - Initial release.
