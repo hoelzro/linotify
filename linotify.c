@@ -284,6 +284,8 @@ int luaopen_inotify(lua_State *L)
     lua_setfield(L, -2, "__index");
     lua_pushcfunction(L, handle__gc);
     lua_setfield(L, -2, "__gc");
+    lua_pushliteral(L, "inotify_handle");
+    lua_setfield(L, -2, "__type");
     lua_pop(L, 1);
 
     lua_newtable(L);
