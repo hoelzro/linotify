@@ -162,6 +162,10 @@ handle_events_iterator(lua_State *L)
         context->offset = 0;
 
         if((context->bytes_remaining = read(fd, context->buffer, READ_BUFFER_SIZE)) < 0) {
+            if(errno == EAGAIN || errno == EWOULDBLOCK) {
+                lua_pushnil(L);
+                return 1;
+            }
             return luaL_error(L, "read error: %s\n", strerror(errno));
         }
     }
