@@ -71,7 +71,16 @@ static int handle_error(lua_State *L)
 static int init(lua_State *L)
 {
     int fd;
-    int flags = lua_toboolean(L, 1) ? IN_NONBLOCK : 0;
+    int flags = 0;
+
+    if(lua_type(L, 1) == LUA_TTABLE) {
+        lua_getfield(L, 1, "blocking");
+
+        if(lua_type(L, -1) != LUA_TNIL && !lua_toboolean(L, -1)) {
+            flags |= IN_NONBLOCK;
+        }
+        lua_pop(L, 1);
+    }
 
     if((fd = inotify_init1(flags)) == -1) {
         return handle_error(L);
