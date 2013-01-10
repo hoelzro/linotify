@@ -39,7 +39,9 @@ the error message, and errno are returned.
 Returns an iterator that reads events from the handle, one at a time.
 Each value yielded from the iterator is a table with the members of the
 `inotify_event` struct as its keys and values (except for len).  If an
-error occurs during reading, an error is thrown.
+error occurs during reading, an error is thrown.  If this method is
+run on a handle in non-blocking mode, it will yield events until no
+more events are available without blocking.
 
 ### handle:close()
 
