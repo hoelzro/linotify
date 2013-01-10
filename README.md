@@ -74,6 +74,11 @@ local wd = handle:addwatch('/tmp/foo/', options)
 Removes the watch specified by watchid from the list of watches for this
 inotify handle.  Returns true on success, and `nil, error, errno` on error.
 
+### handle:fileno()
+
+Returns the integer file descriptor for the given handle.  Useful when
+used in combination with an event loop.
+
 Example
 -------
 
