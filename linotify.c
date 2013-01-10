@@ -127,6 +127,10 @@ static int handle_read(lua_State *L)
 
     fd = get_inotify_handle(L, 1);
     if((bytes = read(fd, buffer, 1024)) < 0) {
+        if(errno == EAGAIN || errno == EWOULDBLOCK) {
+            lua_newtable(L);
+            return 1;
+        }
         return handle_error(L);
     }
     lua_newtable(L);
