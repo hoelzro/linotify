@@ -71,8 +71,9 @@ static int handle_error(lua_State *L)
 static int init(lua_State *L)
 {
     int fd;
+    int flags = lua_toboolean(L, 1) ? IN_NONBLOCK : 0;
 
-    if((fd = inotify_init()) == -1) {
+    if((fd = inotify_init1(flags)) == -1) {
         return handle_error(L);
     } else {
         push_inotify_handle(L, fd);
