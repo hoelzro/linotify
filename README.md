@@ -17,8 +17,12 @@ file (for example: `inotify.IN_ACCESS`).
 The only function to be found in the inotify table is `init`, which returns an
 inotify handle.
 
-`init` can optionally take a single argument, a boolean value to specify
-whether to run in non-blocking mode.
+`init` can optionally take a table a single argument.  This table should
+contain attributes for the inotify handle's creation.  The supported
+attributes are:
+
+  * **blocking** - If set to false, the I/O operations performed on this
+    inotify handle are non-blocking.  Otherwise, they are blocking.
 
 Inotify handles have a variety of methods:
 
