@@ -30,8 +30,9 @@ Inotify handles have a variety of methods:
 
 Reads events from the handle, returning a table.  Each element of the table
 is itself a table, with the members of the `inotify_event` struct as its
-keys and values (except for len).  If an error occurs, `nil`, the error
-message, and errno are returned.
+keys and values (except for len).  If the handle is in non-blocking mode and
+no events are available, an empty table is returned. If an error occurs, `nil`,
+the error message, and errno are returned.
 
 ### handle:events()
 
