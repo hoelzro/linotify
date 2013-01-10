@@ -14,8 +14,11 @@ All of the constants are contained in the `inotify` table returned by
 require.  Constants are named after their counterparts in the C header
 file (for example: `inotify.IN_ACCESS`).
 
-The only function to be found in the inotify table is `init`, which
-takes no arguments and returns an inotify handle.
+The only function to be found in the inotify table is `init`, which returns an
+inotify handle.
+
+`init` can optionally take a single argument, a boolean value to specify
+whether to run in non-blocking mode.
 
 Inotify handles have a variety of methods:
 
