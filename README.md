@@ -111,7 +111,7 @@ local handle = inotify.init()
 -- Watch for new files and renames
 local wd = handle:addwatch('/home/rob/', inotify.IN_CREATE, inotify.IN_MOVE)
 
-for ev in handle:events()
+for ev in handle:events() do
     print(ev.name .. ' was created or renamed')
 end
 
