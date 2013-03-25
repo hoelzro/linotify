@@ -264,7 +264,7 @@ static luaL_Reg handle_funcs[] = {
     lua_pushinteger(L, s);\
     lua_setfield(L, -2, #s);
 
-#if LINOTIFY_01_COMPAT
+#if LINOTIFY_01_COMPAT && LUA_VERSION_NUM <= 501
 static int
 inotify_proxy_table__index(lua_State *L)
 {
