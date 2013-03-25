@@ -274,7 +274,11 @@ inotify_proxy_table__index(lua_State *L)
         lua_call(L, 1, 0);
 
         lua_getfield(L, lua_upvalueindex(1), INOTIFY_LIB_NAME);
+#if LUA_VERSION_NUM > 501
+        if(lua_compare(L, 1, -1, LUA_OPEQ)) {
+#else
         if(lua_equal(L, 1, -1)) {
+#endif
             lua_pushvalue(L, lua_upvalueindex(2));
             lua_setfield(L, lua_upvalueindex(1), INOTIFY_LIB_NAME);
         }
