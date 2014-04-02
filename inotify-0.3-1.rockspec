@@ -1,8 +1,8 @@
 package = "inotify"
-version = "0.2-1"
+version = "0.3-1"
 source = {
-	url = 'https://github.com/hoelzro/linotify/archive/0.2.tar.gz',
-        dir = 'linotify-0.2',
+	url = 'https://github.com/hoelzro/linotify/archive/0.3.tar.gz',
+        dir = 'linotify-0.3',
 }
 description = {
 	summary  = "Inotify bindings for Lua",
