@@ -121,10 +121,12 @@ handle:rmwatch(wd)
 handle:close()
 ```
 
-Deprecation Warning
+No More Global Table
 -------------------
 
-As version 0.2, relying on the global `inotify` (as opposed to using the
-return value of `require`) is deprecated.  Doing this will result in
-a warning.  If you do not wish to see this warning, simply downgrade to
-linotify 0.1 (the versions are identical except for this warning).
+As of version 0.3, the global `inotify` table has been completely removed.
+You now need to handle the return value from `require`, like so:
+
+```lua
+local inotify = require 'inotify'
+```
