@@ -1,3 +1,9 @@
+0.3    2014 Apr 02
+       - Remove deprecated global proxy table for library.  Module
+         now completely follows 5.2 module conventions.
+       - Add interface for enabling non-blocking handles
+       - Document fileno method
+
 0.2    2012 Dec 28
        - Issue a deprecation warning when using
          _G.inotify.  Make sure you use the return
