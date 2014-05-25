@@ -246,6 +246,7 @@ static luaL_Reg handle_funcs[] = {
     {"addwatch", handle_add_watch},
     {"rmwatch", handle_rm_watch},
     {"fileno", handle_fileno},
+    {"getfd", handle_fileno},
     {"events", handle_events},
     {NULL, NULL}
 };
