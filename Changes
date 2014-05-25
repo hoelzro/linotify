@@ -1,3 +1,4 @@
+0.4    2014 May 25
        - Add getfd as an alias for fileno.
 
 0.3    2014 Apr 02
