@@ -79,6 +79,10 @@ inotify handle.  Returns true on success, and `nil, error, errno` on error.
 Returns the integer file descriptor for the given handle.  Useful when
 used in combination with an event loop.
 
+### handle:getfd()
+
+Alias for [handle:fileno()](#handlefileno).
+
 Example
 -------
 
