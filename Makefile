@@ -30,7 +30,7 @@ $(LIBNAME): $(OBJNAME)
 	$(CC) -o $(LIBNAME) -shared $(OBJNAME) $(LFLAGS)
 
 install: $(LIBNAME)
-	install -D -s $(LIBNAME) $(INSTALL_PATH)/$(LIBNAME)
+	install -D -s $(LIBNAME) $(DESTDIR)$(INSTALL_PATH)/$(LIBNAME)
 
 clean:
 	$(RM) $(LIBNAME) $(OBJNAME)
