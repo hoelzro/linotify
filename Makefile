@@ -8,7 +8,7 @@ LIBNAME = inotify.so
 OMIT_FRAME_POINTER = -fomit-frame-pointer
 
 # Seach for lua .pc file
-LUAPKG_CMD = $(shell pkg-config --list-all | grep Lua | awk '{print $$1}')
+LUAPKG_CMD = $(shell pkg-config --list-all | grep Lua | awk 'FNR == 1 {print $$1}')
 CFLAGS = -fPIC -O3 -Wall $(shell pkg-config "$(LUAPKG_CMD)" --cflags)
 LFLAGS = -shared $(OMIT_FRAME_POINTER)
 INSTALL_PATH = $(shell pkg-config "$(LUAPKG_CMD)" --variable=INSTALL_CMOD)
@@ -30,7 +30,7 @@ $(LIBNAME): $(OBJNAME)
 	$(CC) -o $(LIBNAME) -shared $(OBJNAME) $(LFLAGS)
 
 install: $(LIBNAME)
-	install -D -s $(LIBNAME) $(DESTDIR)$(INSTALL_PATH)/$(LIBNAME)
+	install -D -s $(LIBNAME) $(INSTALL_PATH)/$(LIBNAME)
 
 clean:
 	$(RM) $(LIBNAME) $(OBJNAME)
