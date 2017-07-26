@@ -30,6 +30,7 @@
 
 #define MT_NAME "INOTIFY_HANDLE"
 #define READ_BUFFER_SIZE 1024
+#define INVALID_FD (-1)
 
 struct inotify_context {
     char buffer[READ_BUFFER_SIZE];
@@ -186,8 +187,11 @@ handle_events(lua_State *L)
 
 static int handle_close(lua_State *L)
 {
-    int fd = get_inotify_handle(L, 1);
-    close(fd);
+    int *fd = (int *) luaL_checkudata(L, 1, MT_NAME);
+    if( *fd != INVALID_FD ){
+        close(*fd);
+        *fd = INVALID_FD;
+    }
     return 0;
 }
 
