@@ -1,3 +1,7 @@
+0.5    2017 Sep 14
+       - Fix broken install target (thanks, Jon Allen!)
+       - Fix accidental double close bug (thanks, Laurent B.!)
+
 0.4    2014 May 25
        - Add getfd as an alias for fileno.
 
